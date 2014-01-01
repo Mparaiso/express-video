@@ -4,4 +4,7 @@
 	<p>
 		{{subtitle}}
 	</p>
+	{% for widget in form.widgets %}
+		<div>{{ widget.toHTML() }}</div>
+	{% endfor %}
 {% endblock %}

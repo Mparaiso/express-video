@@ -93,31 +93,7 @@ var widget;
     })();
     widget.Base = Base;
 
-    var Text = (function (_super) {
-        __extends(Text, _super);
-        function Text() {
-            _super.apply(this, arguments);
-            this.type = "text";
-        }
-        return Text;
-    })(Base);
-    widget.Text = Text;
-    var Check = (function (_super) {
-        __extends(Check, _super);
-        function Check() {
-            _super.apply(this, arguments);
-            this.type = "check";
-            this.template = _.template("<input <%=attributes%> /> <%=label %>");
-        }
-        Check.fromData = function (data) {
-            var check = new Check(data.key, { attributes: data.attributes });
-            check.options.attributes.value = data.value;
-            check.options.label = utils.returnDefined(data.key, data);
-            return check;
-        };
-        return Check;
-    })(Text);
-    widget.Check = Check;
+    // Definition of label widget
     var Label = (function (_super) {
         __extends(Label, _super);
         function Label() {
@@ -138,6 +114,36 @@ var widget;
         return Label;
     })(Base);
     widget.Label = Label;
+
+    // Definition of text widget
+    var Text = (function (_super) {
+        __extends(Text, _super);
+        function Text() {
+            _super.apply(this, arguments);
+            this.type = "text";
+        }
+        return Text;
+    })(Base);
+    widget.Text = Text;
+
+    var Checkbox = (function (_super) {
+        __extends(Checkbox, _super);
+        function Checkbox() {
+            _super.apply(this, arguments);
+            this.type = "checkbox";
+            this.options.attributes.type = 'checkbox';
+            this.template = _.template("<input <%=attributes%> /> <%=label %>");
+        }
+        Checkbox.fromData = function (data) {
+            var check = new Checkbox(data.key, { attributes: data.attributes });
+            check.options.attributes.value = data.value;
+            check.options.label = utils.returnDefined(data.key, data);
+            return check;
+        };
+        return Checkbox;
+    })(Text);
+    widget.Checkbox = Checkbox;
+
     var Radio = (function (_super) {
         __extends(Radio, _super);
         function Radio() {
@@ -364,6 +370,8 @@ var form;
                     return new widget.Button(name, options);
                 case "submit":
                     return new widget.Submit(name, options);
+                case "checkbox":
+                    return new widget.Checkbox(name, options);
                 default:
                     return new widget.Text(name, options);
             }
